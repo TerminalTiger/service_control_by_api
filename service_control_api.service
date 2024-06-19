@@ -1,0 +1,25 @@
+[Unit]
+Description=service control
+Wants=network-online.target
+After=network-online.target
+
+StartLimitIntervalSec=500
+StartLimitBurst=5
+
+[Service]
+User=root
+Group=root
+Type=simple
+RestartSec=5s
+
+#with_auth
+ExecStart=/usr/local/bin/service_control_api_amd64 -username-file username.txt -password-file password.txt -service-file service_control.txt -port 8088
+
+#without_auth
+#ExecStart=/usr/local/bin/service_control_api_amd64 -service-file service_control.txt -port 8088
+
+SyslogIdentifier=service_control
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
